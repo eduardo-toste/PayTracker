@@ -1,9 +1,11 @@
 package com.eduardo.paytracker.exception;
 
-public class ExistentUserException extends RuntimeException {
+import org.springframework.http.HttpStatus;
 
-    public ExistentUserException(String message) {
-        super(message);
+public class ExistentUserException extends BusinessException {
+
+    public ExistentUserException() {
+        super("This user is already registered!", HttpStatus.CONFLICT);
     }
 
 }
