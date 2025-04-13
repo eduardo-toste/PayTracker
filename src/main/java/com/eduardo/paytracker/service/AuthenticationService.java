@@ -29,7 +29,7 @@ public class AuthenticationService implements UserDetailsService {
         var user = userRepository.findByEmail(data.email());
 
         if(user != null){
-            throw new ExistentUserException("This user is already registered!");
+            throw new ExistentUserException();
         }
 
         var password = passwordEncoder.encode(data.password());
