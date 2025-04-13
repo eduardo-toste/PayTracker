@@ -37,6 +37,12 @@ public class GlobalExceptionHandler {
                 .body(buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor"));
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
+        return ResponseEntity.status(ex.getStatus())
+                .body(buildError(ex.getStatus(), ex.getMessage()));
+    }
+
     private Map<String, Object> buildError(HttpStatus status, String message) {
         return buildError(status, message, null);
     }
