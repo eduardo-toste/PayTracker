@@ -37,9 +37,7 @@ public class TransactionService {
                 user
         );
 
-        var savedTransaction = transactionRepository.save(transaction);
-
-        return new TransactionResponseDTO(savedTransaction);
+        return new TransactionResponseDTO(transactionRepository.save(transaction));
     }
 
     private User getUser() {
