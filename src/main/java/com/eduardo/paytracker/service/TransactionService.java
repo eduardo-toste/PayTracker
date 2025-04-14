@@ -47,6 +47,10 @@ public class TransactionService {
         return transactionRepository.findAll(pageable).map(TransactionResponseDTO::new);
     }
 
+    public TransactionResponseDTO getTransactionById(Long id) {
+        return transactionRepository.findById(id).map(TransactionResponseDTO::new).get();
+    }
+
     private User getUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
