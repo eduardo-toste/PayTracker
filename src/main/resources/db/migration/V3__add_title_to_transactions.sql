@@ -1,0 +1,2 @@
+ALTER TABLE transactions
+ADD COLUMN title VARCHAR(255);
