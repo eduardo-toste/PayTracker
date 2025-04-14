@@ -9,10 +9,13 @@ import com.eduardo.paytracker.model.User;
 import com.eduardo.paytracker.repository.TransactionRepository;
 import com.eduardo.paytracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -40,6 +43,10 @@ public class TransactionService {
         return new TransactionResponseDTO(transactionRepository.save(transaction));
     }
 
+    public Page<TransactionResponseDTO> getAllTransactions(Pageable pageable) {
+        return transactionRepository.findAll(pageable).map(TransactionResponseDTO::new);
+    }
+
     private User getUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -52,5 +59,4 @@ public class TransactionService {
 
         return userRepository.getReferenceById(userId);
     }
-
 }
