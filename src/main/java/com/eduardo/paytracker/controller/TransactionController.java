@@ -34,4 +34,11 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(transactions);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionResponseDTO> getById(@PathVariable Long id){
+        var transaction = transactionService.getTransactionById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+    }
+
 }
