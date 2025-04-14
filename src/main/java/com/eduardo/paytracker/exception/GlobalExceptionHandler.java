@@ -3,13 +3,16 @@ package com.eduardo.paytracker.exception;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -41,6 +44,24 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
         return ResponseEntity.status(ex.getStatus())
                 .body(buildError(ex.getStatus(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Object> handleInvalidEnum(HttpMessageNotReadableException ex) {
+        if (ex.getCause() instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException invalidFormatException) {
+            var targetType = invalidFormatException.getTargetType();
+
+            if (targetType.isEnum()) {
+                String acceptedValues = Arrays.stream(targetType.getEnumConstants())
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", "));
+
+                return ResponseEntity.badRequest().body(
+                        buildError(HttpStatus.BAD_REQUEST, "Invalid transaction type!", "Accepted values: " + acceptedValues)
+                );
+            }
+        }
+        return ResponseEntity.badRequest().body(buildError(HttpStatus.BAD_REQUEST, "Wrong request!"));
     }
 
     private Map<String, Object> buildError(HttpStatus status, String message) {
