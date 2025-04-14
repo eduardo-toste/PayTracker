@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public record TransactionResponseDTO(
         Long id,
+        String title,
         String description,
         BigDecimal amount,
         LocalDate createdAt,
