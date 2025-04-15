@@ -8,11 +8,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.eduardo.paytracker.utils.ErrorResponseUtil.buildError;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -62,19 +63,5 @@ public class GlobalExceptionHandler {
             }
         }
         return ResponseEntity.badRequest().body(buildError(HttpStatus.BAD_REQUEST, "Wrong request!"));
-    }
-
-    private Map<String, Object> buildError(HttpStatus status, String message) {
-        return buildError(status, message, null);
-    }
-
-    private Map<String, Object> buildError(HttpStatus status, String message, Object details) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("timestamp", LocalDateTime.now());
-        error.put("status", status.value());
-        error.put("error", status.getReasonPhrase());
-        error.put("message", message);
-        if (details != null) error.put("details", details);
-        return error;
     }
 }
