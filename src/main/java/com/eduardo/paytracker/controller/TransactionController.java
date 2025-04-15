@@ -2,6 +2,7 @@ package com.eduardo.paytracker.controller;
 
 import com.eduardo.paytracker.dto.TransactionRequestDTO;
 import com.eduardo.paytracker.dto.TransactionResponseDTO;
+import com.eduardo.paytracker.dto.TransactionPatchRequestDTO;
 import com.eduardo.paytracker.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,13 @@ public class TransactionController {
     @GetMapping("/{id}")
     public ResponseEntity<TransactionResponseDTO> getById(@PathVariable Long id){
         var transaction = transactionService.getTransactionById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<TransactionResponseDTO> specificUpdate(@RequestBody @Valid TransactionPatchRequestDTO data, @PathVariable Long id){
+        var transaction = transactionService.updateSpecificTransaction(data, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
