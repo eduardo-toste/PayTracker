@@ -8,7 +8,7 @@ import com.eduardo.paytracker.model.Transaction;
 import com.eduardo.paytracker.model.User;
 import com.eduardo.paytracker.repository.TransactionRepository;
 import com.eduardo.paytracker.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +17,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final TransactionRepository transactionRepository;
+    private final UserRepository userRepository;
 
     public TransactionResponseDTO createTransaction(TransactionRequestDTO data) {
         var user = getUser();
