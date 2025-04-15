@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.eduardo.paytracker.exception.TokenException;
 import com.eduardo.paytracker.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Invalid or expired token!");
+            throw new TokenException("Invalid or expired token!");
         }
     }
 
