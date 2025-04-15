@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class TransactionService {
@@ -44,11 +43,15 @@ public class TransactionService {
     }
 
     public Page<TransactionResponseDTO> getAllTransactions(Pageable pageable) {
-        return transactionRepository.findAll(pageable).map(TransactionResponseDTO::new);
+        var userId = getUser().getId();
+
+        return transactionRepository.findAllTransactions(userId, pageable).map(TransactionResponseDTO::new);
     }
 
-    public TransactionResponseDTO getTransactionById(Long id) {
-        return transactionRepository.findById(id).map(TransactionResponseDTO::new).get();
+    public TransactionResponseDTO getTransactionById(Long transactionId) {
+        var userId = getUser().getId();
+
+        return new TransactionResponseDTO(transactionRepository.findTransactionById(userId, transactionId));
     }
 
     private User getUser() {
