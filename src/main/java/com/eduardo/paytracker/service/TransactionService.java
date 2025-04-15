@@ -10,6 +10,7 @@ import com.eduardo.paytracker.model.Transaction;
 import com.eduardo.paytracker.model.User;
 import com.eduardo.paytracker.repository.TransactionRepository;
 import com.eduardo.paytracker.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -64,7 +65,7 @@ public class TransactionService {
         return new TransactionResponseDTO(transaction);
     }
 
-    public TransactionResponseDTO updateSpecificTransaction(TransactionPatchRequestDTO data, Long id) {
+    public TransactionResponseDTO transactionSpecificUpdate(TransactionPatchRequestDTO data, Long id) {
         var userId = getUser().getId();
         var transaction = transactionRepository.findTransactionById(userId, id);
 
@@ -87,6 +88,25 @@ public class TransactionService {
         if (data.type() != null) {
             transaction.setType(data.type());
         }
+
+        transactionRepository.save(transaction);
+
+        return new TransactionResponseDTO(transaction);
+    }
+
+    public TransactionResponseDTO transactionCompleteUpdate(TransactionRequestDTO data, Long id) {
+        var userId = getUser().getId();
+        var transaction = transactionRepository.findTransactionById(userId, id);
+
+        if(transaction == null){
+            throw new TransactionNotFoundException("Transaction not found!");
+        }
+
+        transaction.setTitle(data.title());
+        transaction.setDescription(data.description());
+        transaction.setAmount(data.amount());
+        transaction.setDueDate(data.dueDate());
+        transaction.setType(data.type());
 
         transactionRepository.save(transaction);
 
