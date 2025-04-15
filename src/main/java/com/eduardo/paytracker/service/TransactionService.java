@@ -43,6 +43,11 @@ public class TransactionService {
 
     public Page<TransactionResponseDTO> getAllTransactions(Pageable pageable) {
         var userId = getUser().getId();
+        var transactions = transactionRepository.findAllTransactions(userId, pageable);
+
+        if(transactions.isEmpty()){
+            throw new TransactionNotFoundException("You haven't registered any transactions yet!");
+        }
 
         return transactionRepository.findAllTransactions(userId, pageable).map(TransactionResponseDTO::new);
     }
@@ -52,7 +57,7 @@ public class TransactionService {
         var transaction = transactionRepository.findTransactionById(userId, transactionId);
 
         if(transaction == null){
-            throw new TransactionNotFoundException();
+            throw new TransactionNotFoundException("Transaction not found!");
         }
 
         return new TransactionResponseDTO(transaction);
