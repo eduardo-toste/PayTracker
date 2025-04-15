@@ -8,7 +8,7 @@ import com.eduardo.paytracker.model.User;
 import com.eduardo.paytracker.service.AuthenticationService;
 import com.eduardo.paytracker.service.TokenService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,16 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager manager;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationManager manager;
+    private final TokenService tokenService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid AuthRequestDTO data){
