@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Entity(name = "Transaction")
 @Table(name = "transactions")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
@@ -23,22 +22,27 @@ public class Transaction {
     private Long id;
 
     @Column(nullable = false)
+    @Setter
     private String title;
 
     @Column(nullable = false)
+    @Setter
     private String description;
 
     @Column(nullable = false)
+    @Setter
     private BigDecimal amount;
 
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 
     @Column(name = "due_date", nullable = false)
+    @Setter
     private LocalDate dueDate;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
+    @Setter
     private TransactionType type;
 
     @ManyToOne
