@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.eduardo.paytracker.dto.TransactionRequestDTO;
 import com.eduardo.paytracker.dto.TransactionResponseDTO;
+import com.eduardo.paytracker.exception.TransactionNotFoundException;
 import com.eduardo.paytracker.model.Transaction;
 import com.eduardo.paytracker.model.User;
 import com.eduardo.paytracker.repository.TransactionRepository;
@@ -48,8 +49,13 @@ public class TransactionService {
 
     public TransactionResponseDTO getTransactionById(Long transactionId) {
         var userId = getUser().getId();
+        var transaction = transactionRepository.findTransactionById(userId, transactionId);
 
-        return new TransactionResponseDTO(transactionRepository.findTransactionById(userId, transactionId));
+        if(transaction == null){
+            throw new TransactionNotFoundException();
+        }
+
+        return new TransactionResponseDTO(transaction);
     }
 
     private User getUser() {
