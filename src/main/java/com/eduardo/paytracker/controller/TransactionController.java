@@ -42,7 +42,14 @@ public class TransactionController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<TransactionResponseDTO> specificUpdate(@RequestBody @Valid TransactionPatchRequestDTO data, @PathVariable Long id){
-        var transaction = transactionService.updateSpecificTransaction(data, id);
+        var transaction = transactionService.transactionSpecificUpdate(data, id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TransactionResponseDTO> completeUpdate(@RequestBody @Valid TransactionRequestDTO data, @PathVariable Long id){
+        var transaction = transactionService.transactionCompleteUpdate(data, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
