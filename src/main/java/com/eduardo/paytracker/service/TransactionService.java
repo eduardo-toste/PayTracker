@@ -113,6 +113,17 @@ public class TransactionService {
         return new TransactionResponseDTO(transaction);
     }
 
+    public void deleteTransaction(Long id) {
+        var userId = getUser().getId();
+        var transaction = transactionRepository.findTransactionById(userId, id);
+
+        if(transaction == null){
+            throw new TransactionNotFoundException("Transaction not found!");
+        }
+
+        transactionRepository.deleteById(id);
+    }
+
     private User getUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
