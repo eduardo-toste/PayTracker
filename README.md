@@ -4,6 +4,8 @@ PayTracker é uma API para controle financeiro pessoal desenvolvida em **Java 23
 
 O projeto segue boas práticas de arquitetura em camadas, tratamento global de exceções e validação robusta de dados. A estrutura é modular, visando a escalabilidade e manutenção contínua.
 
+![image](https://github.com/user-attachments/assets/02dc4fa5-1dc8-4723-8fb8-3d761e8095bd)
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -71,6 +73,10 @@ com.eduardo.paytracker
 - `PATCH /transaction/{id}` → Atualiza dados parciais de uma transação
 - `PUT /transaction/{id}` → Atualiza dados de uma transação
 - `DELETE /transaction/{id}` → Remove uma transação
+
+---
+
+![image](https://github.com/user-attachments/assets/26d48313-2f77-4753-b316-250657575168)
 
 ---
 
