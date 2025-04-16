@@ -1,4 +1,4 @@
-package com.eduardo.paytracker.security;
+package com.eduardo.paytracker.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

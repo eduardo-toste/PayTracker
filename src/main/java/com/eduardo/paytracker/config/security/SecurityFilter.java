@@ -1,4 +1,4 @@
-package com.eduardo.paytracker.security;
+package com.eduardo.paytracker.config.security;
 
 import com.eduardo.paytracker.exception.TokenException;
 import com.eduardo.paytracker.repository.UserRepository;
