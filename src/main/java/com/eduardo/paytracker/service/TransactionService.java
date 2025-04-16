@@ -2,15 +2,14 @@ package com.eduardo.paytracker.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.eduardo.paytracker.dto.TransactionPatchRequestDTO;
 import com.eduardo.paytracker.dto.TransactionRequestDTO;
 import com.eduardo.paytracker.dto.TransactionResponseDTO;
-import com.eduardo.paytracker.dto.TransactionPatchRequestDTO;
 import com.eduardo.paytracker.exception.TransactionNotFoundException;
 import com.eduardo.paytracker.model.Transaction;
 import com.eduardo.paytracker.model.User;
 import com.eduardo.paytracker.repository.TransactionRepository;
 import com.eduardo.paytracker.repository.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +53,36 @@ public class TransactionService {
         return transactionRepository.findAllTransactions(userId, pageable).map(TransactionResponseDTO::new);
     }
 
-    public TransactionResponseDTO getTransactionById(Long transactionId) {
+    public TransactionResponseDTO getTransactionById(Long id) {
+        var transaction = getTransactionOrThrow(id);
+
+        return new TransactionResponseDTO(transaction);
+    }
+
+    public TransactionResponseDTO transactionSpecificUpdate(TransactionPatchRequestDTO data, Long id) {
+        var transaction = getTransactionOrThrow(id);
+
+        transaction.updateFromPatch(data);
+        transactionRepository.save(transaction);
+
+        return new TransactionResponseDTO(transaction);
+    }
+
+    public TransactionResponseDTO transactionCompleteUpdate(TransactionRequestDTO data, Long id) {
+        var transaction = getTransactionOrThrow(id);
+
+        transaction.updateFrom(data);
+        transactionRepository.save(transaction);
+
+        return new TransactionResponseDTO(transaction);
+    }
+
+    public void deleteTransaction(Long id) {
+        var transaction = getTransactionOrThrow(id);
+        transactionRepository.delete(transaction);
+    }
+
+    private Transaction getTransactionOrThrow(Long transactionId){
         var userId = getUser().getId();
         var transaction = transactionRepository.findTransactionById(userId, transactionId);
 
@@ -62,66 +90,7 @@ public class TransactionService {
             throw new TransactionNotFoundException("Transaction not found!");
         }
 
-        return new TransactionResponseDTO(transaction);
-    }
-
-    public TransactionResponseDTO transactionSpecificUpdate(TransactionPatchRequestDTO data, Long id) {
-        var userId = getUser().getId();
-        var transaction = transactionRepository.findTransactionById(userId, id);
-
-        if(transaction == null){
-            throw new TransactionNotFoundException("Transaction not found!");
-        }
-
-        if (data.title() != null) {
-            transaction.setTitle(data.title());
-        }
-        if (data.description() != null) {
-            transaction.setDescription(data.description());
-        }
-        if (data.amount() != null) {
-            transaction.setAmount(data.amount());
-        }
-        if (data.dueDate() != null) {
-            transaction.setDueDate(data.dueDate());
-        }
-        if (data.type() != null) {
-            transaction.setType(data.type());
-        }
-
-        transactionRepository.save(transaction);
-
-        return new TransactionResponseDTO(transaction);
-    }
-
-    public TransactionResponseDTO transactionCompleteUpdate(TransactionRequestDTO data, Long id) {
-        var userId = getUser().getId();
-        var transaction = transactionRepository.findTransactionById(userId, id);
-
-        if(transaction == null){
-            throw new TransactionNotFoundException("Transaction not found!");
-        }
-
-        transaction.setTitle(data.title());
-        transaction.setDescription(data.description());
-        transaction.setAmount(data.amount());
-        transaction.setDueDate(data.dueDate());
-        transaction.setType(data.type());
-
-        transactionRepository.save(transaction);
-
-        return new TransactionResponseDTO(transaction);
-    }
-
-    public void deleteTransaction(Long id) {
-        var userId = getUser().getId();
-        var transaction = transactionRepository.findTransactionById(userId, id);
-
-        if(transaction == null){
-            throw new TransactionNotFoundException("Transaction not found!");
-        }
-
-        transactionRepository.deleteById(id);
+        return transaction;
     }
 
     private User getUser() {
