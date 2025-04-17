@@ -76,7 +76,7 @@ com.eduardo.paytracker
 
 ---
 
-![Endpoints Preview](https://github.com/user-attachments/assets/26d48313-2f77-4753-b316-250657575168)
+![image](https://github.com/user-attachments/assets/e9a67f60-9cf4-4236-a954-3895bde16086)
 
 ---
 
