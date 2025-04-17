@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class TransactionNotFoundException extends BusinessException {
 
     public TransactionNotFoundException(String message) {
-        super(message, HttpStatus.CONFLICT);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }
