@@ -44,15 +44,15 @@ O projeto segue boas práticas de arquitetura em camadas, tratamento global de e
 ```
 com.eduardo.paytracker
 │── config
-│   ├── mail (Configuração de envio de e-mails)
-│── controllers (Controladores da API)
-│── dtos (Objetos de Transferência de Dados)
-│── exceptions (Exceções personalizadas)
-│── models (Modelos e Entidades do banco de dados)
+│   ├── scheduler (Configuração de Scheduler)
+│   ├── security (Configuração de segurança e filtros)
+│── controller (Controladores da API)
+│── dto (Objetos de Transferência de Dados)
+│── exception (Exceções personalizadas)
+│── model (Modelos e Entidades do banco de dados)
 │   ├── enums (Enums)
-│── repositories (Interfaces de repositórios JPA)
-├── security (Configuração de segurança e filtros)
-│── schedulers (Agendadores com @Scheduled)
+│── repository (Interfaces de repositórios JPA)
+│── scheduler (Agendadores com @Scheduled)
 │── services (Regras de negócio e envio de e-mails)
 │── utils (Funções auxiliares)
 │── resources (Scripts SQL para migração do banco)
@@ -92,11 +92,11 @@ Certifique-se de ter as seguintes dependências instaladas:
 A aplicação utiliza um banco de dados PostgreSQL via Docker. Para configurá-lo, execute o seguinte comando:
 
 ```bash
-docker run --name stockify-postgres -e POSTGRES_PASSWORD=root -e POSTGRES_DB=stockify -p 5432:5432 -d postgres:latest
+docker run --name paytracker-postgres -e POSTGRES_PASSWORD=root -e POSTGRES_DB=paytracker -p 5432:5432 -d postgres:latest
 ```
 Edite o arquivo `application.properties` com as credenciais do banco:
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/stockify
+spring.datasource.url=jdbc:postgresql://localhost:5432/paytracker
 spring.datasource.username=postgres
 spring.datasource.password=123456
 ```
