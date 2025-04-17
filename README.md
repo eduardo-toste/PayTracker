@@ -1,123 +1,134 @@
 # 💸 PayTracker API
 
-PayTracker é uma API para controle financeiro pessoal desenvolvida em **Java 23** com **Spring Boot**. A aplicação permite que usuários cadastrem suas receitas e despesas, com envio automático de **alertas por e-mail dois dias antes do vencimento** de cada transação. Possui autenticação via **JWT**, versionamento de banco com **Flyway**, envio de e-mails com **JavaMailSender** e segurança com **Spring Security**.
+**PayTracker** é uma API REST desenvolvida em **Java 23** com **Spring Boot** para gerenciamento de finanças pessoais. Permite aos usuários registrarem receitas e despesas, fornecendo alertas automáticos por e-mail dois dias antes do vencimento das transações.
 
-O projeto segue boas práticas de arquitetura em camadas, tratamento global de exceções e validação robusta de dados. A estrutura é modular, visando a escalabilidade e manutenção contínua.
+A aplicação utiliza autenticação baseada em tokens JWT, gerenciamento eficiente do banco de dados com Flyway e segurança robusta através do Spring Security.
 
-![image](https://github.com/user-attachments/assets/02dc4fa5-1dc8-4723-8fb8-3d761e8095bd)
+![PayTracker Preview](https://github.com/user-attachments/assets/02dc4fa5-1dc8-4723-8fb8-3d761e8095bd)
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Tecnologias e Ferramentas
 
 ### Backend
 - Java 23
 - Spring Boot
 - Spring Web
-- Spring Security (JWT)
+- Spring Security com JWT
 - Spring Data JPA
-- Spring Scheduler (Agendamento de tarefas)
+- Spring Scheduler (agendamento de tarefas)
 
 ### Envio de E-mails
 - JavaMailSender (Spring Boot Starter Mail)
 
 ### Banco de Dados
-- PostgreSQL (via Docker)
-- Flyway (Migração e versionamento)
+- PostgreSQL (Docker)
+- Flyway (migração e controle de versões)
 
 ### Testes
-- JUnit 5 (Testes unitários)
-- Mockito (Mock de dependências)
+- JUnit 5
+- Mockito
 - Spring Boot Test
 
 ### Documentação
 - OpenAPI (SpringDoc)
 
-### Ferramentas e Build
+### Ferramentas e Deploy
 - Maven
 - Docker
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
 ```
 com.eduardo.paytracker
-│── config
-│   ├── scheduler (Configuração de Scheduler)
-│   ├── security (Configuração de segurança e filtros)
-│── controller (Controladores da API)
-│── dto (Objetos de Transferência de Dados)
-│── exception (Exceções personalizadas)
-│── model (Modelos e Entidades do banco de dados)
-│   ├── enums (Enums)
-│── repository (Interfaces de repositórios JPA)
-│── scheduler (Agendadores com @Scheduled)
-│── services (Regras de negócio e envio de e-mails)
-│── utils (Funções auxiliares)
-│── resources (Scripts SQL para migração do banco)
+├── config
+│   ├── scheduler     # Configuração de agendamento
+│   └── security      # Segurança e filtros JWT
+├── controller        # Controladores REST
+├── dto               # Data Transfer Objects (DTOs)
+├── exception         # Exceções personalizadas
+├── model             # Entidades JPA e modelos de domínio
+│   └── enums         # Enumerações
+├── repository        # Repositórios Spring Data JPA
+├── scheduler         # Tarefas agendadas
+├── services          # Lógica de negócio e envio de e-mails
+├── utils             # Métodos utilitários
+└── resources         # Scripts SQL para migração (Flyway)
 ```
 
 ---
 
-## 📌 Endpoints Disponíveis
+## 📌 Endpoints da API
 
 ### Autenticação
-- `POST /auth/login` → Autentica usuário e gera token JWT
-- `POST /auth/register` → Cadastra novo usuário
+- `POST /auth/login` - Autenticação de usuários (gera token JWT)
+- `POST /auth/register` - Cadastro de novos usuários
 
 ### Transações Financeiras
-- `POST /transaction` → Cadastra nova transação
-- `GET /transaction` → Lista todas as transações do usuário
-- `GET /transaction/{id}` → Detalha uma transação
-- `PATCH /transaction/{id}` → Atualiza dados parciais de uma transação
-- `PUT /transaction/{id}` → Atualiza dados de uma transação
-- `DELETE /transaction/{id}` → Remove uma transação
+- `POST /transaction` - Cadastro de transações
+- `GET /transaction` - Listagem das transações do usuário
+- `GET /transaction/{id}` - Detalhamento de uma transação
+- `PATCH /transaction/{id}` - Atualização parcial de transação
+- `PUT /transaction/{id}` - Atualização completa de transação
+- `DELETE /transaction/{id}` - Exclusão de transação
 
 ---
 
-![image](https://github.com/user-attachments/assets/26d48313-2f77-4753-b316-250657575168)
+![Endpoints Preview](https://github.com/user-attachments/assets/26d48313-2f77-4753-b316-250657575168)
 
 ---
 
-## ⚙️ Configuração e Execução
+## ⚙️ Como Executar o Projeto
 
-### Pré-requisitos
-Certifique-se de ter as seguintes dependências instaladas:
+### 🔧 Pré-requisitos
 - Java 23
 - Docker
 - Maven
 
-### Configuração do Banco de Dados
-A aplicação utiliza um banco de dados PostgreSQL via Docker. Para configurá-lo, execute o seguinte comando:
+### Configuração do Banco PostgreSQL
 
+Execute o banco usando Docker:
 ```bash
 docker run --name paytracker-postgres -e POSTGRES_PASSWORD=root -e POSTGRES_DB=paytracker -p 5432:5432 -d postgres:latest
 ```
-Edite o arquivo `application.properties` com as credenciais do banco:
+
+Configure as propriedades em `application.properties`:
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/paytracker
 spring.datasource.username=postgres
-spring.datasource.password=123456
+spring.datasource.password=root
 ```
 
-### Executando a Aplicação
+### Execução Local
 1. Clone o repositório:
-   ```sh
-   git clone https://github.com/eduardo-toste/paytracker.git
-   ```
-2. Navegue até a pasta do projeto:
-   ```sh
-   cd paytracker
-   ```
-3. Execute o projeto com Maven:
-   ```sh
-   mvn spring-boot:run
-   ```
-4. Acesse a documentação da API via OpenAPI:
-   ```
-   http://localhost:8080/swagger-ui.html
-   ```
+```sh
+git clone https://github.com/eduardo-toste/paytracker.git
+```
 
-## 🤝 Contribuição
-Se deseja contribuir com melhorias, faça um fork do repositório, crie uma branch e envie um pull request.
+2. Navegue até a pasta do projeto:
+```sh
+cd paytracker
+```
+
+3. Execute a aplicação com Maven:
+```sh
+mvn spring-boot:run
+```
+
+4. Acesse a documentação OpenAPI:
+```url
+http://localhost:8080/swagger-ui.html
+```
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Para contribuir:
+- Faça um **fork** do repositório
+- Crie uma nova **branch** para sua funcionalidade (`git checkout -b nova-feature`)
+- Realize as alterações e envie um **pull request**
+
+---
