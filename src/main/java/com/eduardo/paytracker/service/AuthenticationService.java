@@ -5,10 +5,9 @@ import com.eduardo.paytracker.exception.ExistentUserException;
 import com.eduardo.paytracker.model.User;
 import com.eduardo.paytracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +19,11 @@ public class AuthenticationService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws InternalAuthenticationServiceException {
         var user = userRepository.findByEmail(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("User not found: " + username);
+            throw new InternalAuthenticationServiceException("User not found: " + username);
         }
 
         return user;
