@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,12 +66,12 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void loadUserByUsername_WhenNotExists_ShouldReturnNull() {
+    void loadUserByUsername_WhenNotExists_ShouldThrowException() {
         when(userRepository.findByEmail("naoexiste@email.com")).thenReturn(null);
 
-        UserDetails result = authenticationService.loadUserByUsername("naoexiste@email.com");
-
-        assertNull(result);
+        assertThrows(UsernameNotFoundException.class, () -> {
+            authenticationService.loadUserByUsername("naoexiste@email.com");
+        });
     }
 
 }
