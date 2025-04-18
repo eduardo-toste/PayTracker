@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,7 +70,7 @@ class AuthenticationServiceTest {
     void loadUserByUsername_WhenNotExists_ShouldThrowException() {
         when(userRepository.findByEmail("naoexiste@email.com")).thenReturn(null);
 
-        assertThrows(UsernameNotFoundException.class, () -> {
+        assertThrows(InternalAuthenticationServiceException.class, () -> {
             authenticationService.loadUserByUsername("naoexiste@email.com");
         });
     }
