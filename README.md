@@ -6,7 +6,7 @@ A aplicação utiliza autenticação baseada em tokens JWT, gerenciamento eficie
 
 ![PayTracker Preview](https://github.com/user-attachments/assets/02dc4fa5-1dc8-4723-8fb8-3d761e8095bd)
 
----
+
 
 ## 🚀 Tecnologias e Ferramentas
 
