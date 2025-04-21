@@ -31,6 +31,7 @@ public class EmailService {
 
             String html = htmlTemplate
                     .replace("{{nome}}", transaction.getUser().getName())
+                    .replace("{{titulo}}", transaction.getTitle())
                     .replace("{{descricao}}", transaction.getDescription())
                     .replace("{{vencimento}}", transaction.getDueDate().toString())
                     .replace("{{valor}}", String.format("R$ %.2f", transaction.getAmount()))
