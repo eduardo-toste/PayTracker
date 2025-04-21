@@ -17,7 +17,7 @@ public class EmailScheduler {
     private final TransactionRepository transactionRepository;
     private final EmailService emailService;
 
-    @Scheduled(cron = "0 0 22 * * *")
+    @Scheduled(cron = "0 45 17 * * *")
     public void checkExpiringTransactions() {
         LocalDate date = LocalDate.now().plusDays(2);
         List<Transaction> transactions = transactionRepository.findByDueDate(date);
