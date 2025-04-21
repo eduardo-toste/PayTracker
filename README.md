@@ -23,6 +23,7 @@ A aplicação utiliza autenticação baseada em tokens JWT, gerenciamento eficie
 
 ### Banco de Dados
 - PostgreSQL (Docker)
+- H2 (Banco em memória usado nos testes)
 - Flyway (migração e controle de versões)
 
 ### Testes
