@@ -43,20 +43,41 @@ A aplicação utiliza autenticação baseada em tokens JWT, gerenciamento eficie
 ## 📁 Estrutura do Projeto
 
 ```
-com.eduardo.paytracker
-├── config
-│   ├── scheduler     # Configuração de agendamento
-│   └── security      # Segurança e filtros JWT
-├── controller        # Controladores REST
-├── dto               # Data Transfer Objects (DTOs)
-├── exception         # Exceções personalizadas
-├── model             # Entidades JPA e modelos de domínio
-│   └── enums         # Enumerações
-├── repository        # Repositórios Spring Data JPA
-├── scheduler         # Tarefas agendadas
-├── services          # Lógica de negócio e envio de e-mails
-├── utils             # Métodos utilitários
-└── resources         # Scripts SQL para migração (Flyway)
+src
+├── main
+│   ├── java
+│   │   └── com.eduardo.paytracker
+│   │       ├── config                # Configurações globais
+│   │       │   ├── scheduler         # Agendamento de tarefas com @EnableScheduling
+│   │       │   └── security          # Filtros JWT, SecurityConfig, TokenService
+│   │       ├── controller            # REST Controllers (Transaction, Authentication)
+│   │       ├── dto                   # DTOs (request/response) usados na API
+│   │       ├── exception             # Exceções personalizadas e GlobalExceptionHandler
+│   │       ├── model                 # Entidades JPA (Transaction, User)
+│   │       │   └── enums             # Enums (Enumerations)
+│   │       ├── repository            # Interfaces de persistência com Spring Data JPA
+│   │       ├── scheduler             # Lógica de tarefas agendadas (ex: envio de e-mails)
+│   │       ├── service               # Regras de negócio e serviços auxiliares
+│   │       ├── utils                 # Utilitários diversos (ex: ErrorResponseUtil)
+│   │       └── PaytrackerApplication.java  # Classe principal com @SpringBootApplication
+│
+│   └── resources
+│       ├── db.migration              # Scripts SQL de migração com Flyway
+│       ├── static                    # Arquivos estáticos (opcional)
+│       ├── templates                 # Templates HTML (ex: e-mail de lembrete)
+│       └── application.properties    # Configurações padrão da aplicação
+│
+├── test
+│   ├── java
+│   │   └── com.eduardo.paytracker
+│   │       ├── controller            # Testes unitários de controllers (MockMvc + WebMvcTest)
+│   │       ├── repository            # Testes de repositórios (opcional, com @DataJpaTest)
+│   │       ├── service               # Testes de lógica de negócio (Mockito + JUnit)
+│   │       └── PaytrackerApplicationTests.java  # Teste de carga de contexto (SpringBootTest)
+│
+│   └── resources
+│       └── application-test.properties  # Configurações específicas para execução de testes
+
 ```
 
 ---
